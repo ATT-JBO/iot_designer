@@ -1,0 +1,6 @@
+att-event-engine
+att_service_manager
+pymongo
+grpcio
+Flask
+Flask-Session

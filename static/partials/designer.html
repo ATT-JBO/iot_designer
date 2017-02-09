@@ -1,0 +1,134 @@
+
+
+<md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
+    <md-toolbar class="md-hue-1" >
+        <div layout="column" class="md-toolbar-tools">
+            <div>roots</div>
+        </div>
+    </md-toolbar>
+    <go-tree-palette go-model="rootPalette" flex ></go-tree-palette>
+</md-sidenav>
+<div layout="column" class="relative" layout-fill role="main">
+  <md-toolbar ng-show="!showSave">
+    <div class="md-toolbar-tools">
+      <md-button ng-click="toggleSidenav('left')" hide-gt-md aria-label="Menu">
+        <ng-md-icon icon="menu"></ng-md-icon>
+      </md-button>
+      <h3>
+        Design surface
+      </h3>
+      <span flex></span>
+      <md-button aria-label="Open" ng-click="showOpen = !showOpen">
+          <md-tooltip md-direction="bottom">
+            Manage projects
+          </md-tooltip>
+          <ng-md-icon icon="folder_open"></ng-md-icon>
+      </md-button>
+
+      <md-button aria-label="Save" ng-click="showSave = !showSave">
+          <md-tooltip md-direction="bottom">
+            Save
+          </md-tooltip>
+          <ng-md-icon icon="save"></ng-md-icon>
+      </md-button>
+      <md-button aria-label="Publish" ng-click="on_publish_clicked($event)">
+          <md-tooltip md-direction="bottom">
+            Publish
+          </md-tooltip>
+          <ng-md-icon icon="publish"></ng-md-icon>
+      </md-button>
+
+
+
+        <div ng-controller="logoutController">
+         <md-button aria-label="logout" ng-click="logout()">
+          <md-tooltip md-direction="bottom">
+            Log out
+          </md-tooltip>
+          <ng-md-icon icon="logout"></ng-md-icon>
+      </md-button>
+        </div>
+
+
+    </div>
+  </md-toolbar>
+
+  <md-toolbar class="md-hue-1" ng-show="showSave">
+    <div class="md-toolbar-tools">
+      <md-button ng-click="showSave = !showSave" aria-label="Back">
+        <ng-md-icon icon="arrow_back"></ng-md-icon>
+      </md-button>
+      <h3 flex="10">
+        Back
+      </h3>
+      <md-input-container md-theme="input" flex >
+        <label>&nbsp;</label>
+        <input ng-model="projectName" placeholder="enter name">
+      </md-input-container>
+      <md-button aria-label="Save" ng-click="on_save_clicked($event)">
+        <ng-md-icon icon="save"></ng-md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+
+    <go-diagram id="main_diagram" go-model="model" ng-attr-id="myDiagramDiv"  id="myDiagramDiv" flex  ></go-diagram>
+    <div ng-show="hasError">
+        <div uib-alert ng-class="'alert-error'" ng-repeat="error in errors track by $index" type="danger"  close="closeAlert($index)">{{error}}</div>
+    </div>
+</div>
+
+
+<md-sidenav layout="column" class="md-sidenav-right md-whiteframe-z2" md-component-id="right" md-is-locked-open="$mdMedia('gt-md')">
+    <md-toolbar class="md-hue-1" >
+        <div layout="column" class="md-toolbar-tools">
+            <div>properties</div>
+        </div>
+    </md-toolbar>
+    <go-inspector go-diagram="main_diagram" flex id="main_inspector"></go-inspector>
+
+</md-sidenav>
+
+
+
+<modal-dialog show='showOpen' width='750px' height='60%'>
+    <div layout="column" class="relative" layout-fill role="main" style="margin-top: 20px" layout-align="space-around stretch">
+        <md-toolbar layout="row" class="md-hue-3">
+            <div class="md-toolbar-tools">
+                <span>Projects</span>
+            </div>
+        </md-toolbar>
+        <md-content>
+              <md-list flex>
+                <md-list-item class="md-3-line" ng-repeat="x in projects" ng-click="null">
+                  <div class="md-list-item-text" layout="row">
+                    <p flex="70">{{ x.name }}</p>
+                      <md-button ng-click="on_open_clicked($event, x.name)" aria-label="Menu" flex="15">
+                            Open
+                        </md-button>
+                      <md-button ng-click="toggleSidenav('left')" aria-label="Delete">
+                        Delete
+                    </md-button>
+                  </div>
+                </md-list-item>
+              </md-list>
+        </md-content>
+
+    </div>
+</modal-dialog>
+
+
+
+<modal-dialog show="showResult" width='750px' height='60%'>
+    <div layout="column" class="relative" layout-fill role="main" style="margin-top: 20px" layout-align="space-around stretch">
+        <md-toolbar layout="row" class="md-hue-3">
+            <div class="md-toolbar-tools">
+                <span>Result</span>
+            </div>
+        </md-toolbar>
+        <md-content>
+            <md-content>
+            <pre>{{ publishResult }}</pre>
+        </md-content>
+        </md-content>
+    </div>
+</modal-dialog>
